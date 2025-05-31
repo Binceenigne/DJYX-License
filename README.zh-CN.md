@@ -2,8 +2,15 @@
 
 [![License: DPL-1.0](https://img.shields.io/badge/License-DPL--1.0-blue.svg)](./licenses/DPL-1.0-LICENSE.md)
 [![License: DSL-1.0](https://img.shields.io/badge/License-DSL--1.0-orange.svg)](./licenses/DSL-1.0-LICENSE.md)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-在线演示-brightgreen)](https://binceenigne.github.io/DJYX-License/)
 
 一个全面的开源许可证系统，为不同项目需求提供两种不同的许可模式。
+
+## 🌐 在线演示
+
+**[查看交互式演示 →](https://binceenigne.github.io/DJYX-License/)**
+
+通过我们精美的交互式网页界面体验完整的DJYX协议系统，支持双语切换和详细对比。
 
 ## 🌍 语言
 

@@ -2,8 +2,15 @@
 
 [![License: DPL-1.0](https://img.shields.io/badge/License-DPL--1.0-blue.svg)](./licenses/DPL-1.0-LICENSE.md)
 [![License: DSL-1.0](https://img.shields.io/badge/License-DSL--1.0-orange.svg)](./licenses/DSL-1.0-LICENSE.md)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-brightgreen)](https://binceenigne.github.io/DJYX-License/)
 
 A comprehensive open-source license system with two distinct licensing models for different project needs.
+
+## 🌐 Live Demo
+
+**[View Interactive Demo →](https://binceenigne.github.io/DJYX-License/)**
+
+Experience the full DJYX License System with our beautiful, interactive web interface featuring bilingual support and detailed comparisons.
 
 ## 🌍 Languages
 
