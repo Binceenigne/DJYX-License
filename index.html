@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJYX License System | DJYX协议系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: bold;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .licenses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .license-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .license-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .license-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-color-light));
+        }
+
+        .dpl-card {
+            --accent-color: #007bff;
+            --accent-color-light: #66b3ff;
+        }
+
+        .dsl-card {
+            --accent-color: #ff6b35;
+            --accent-color-light: #ff9472;
+        }
+
+        .license-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .license-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .dpl-card .license-icon {
+            background: linear-gradient(135deg, #007bff, #66b3ff);
+        }
+
+        .dsl-card .license-icon {
+            background: linear-gradient(135deg, #ff6b35, #ff9472);
+        }
+
+        .license-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .license-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .feature-allowed {
+            color: #28a745;
+        }
+
+        .feature-warning {
+            color: #ffc107;
+        }
+
+        .feature-denied {
+            color: #dc3545;
+        }
+
+        .license-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #dee2e6;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .comparison-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .contact-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item i {
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .licenses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .license-card {
+                padding: 20px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .badge-blue {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-orange {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+    </style>
+</head>
+<body>
+    <button class="language-toggle" onclick="toggleLanguage()">
+        <i class="fas fa-globe"></i> <span id="lang-text">EN</span>
+    </button>
+
+    <div class="container">
+        <header class="header">
+            <div id="header-zh" class="fade-in">
+                <h1>DJYX 协议系统</h1>
+                <p>为不同项目需求提供两种开源许可模式</p>
+            </div>
+            <div id="header-en" class="hidden">
+                <h1>DJYX License System</h1>
+                <p>Two open-source licensing models for different project needs</p>
+            </div>
+        </header>
+
+        <!-- Chinese Content -->
+        <div id="content-zh" class="fade-in">
+            <div class="licenses-grid">
+                <!-- DPL-1.0 Card -->
+                <div class="license-card dpl-card">
+                    <div class="license-header">
+                        <div class="license-icon">
+                            <i class="fas fa-unlock"></i>
+                        </div>
+                        <div>
+                            <div class="license-title">DPL-1.0</div>
+                            <div class="license-subtitle">DJYX宽松开源协议（蓝色协议）</div>
+                            <span class="badge badge-blue">宽松型</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check feature-allowed"></i> 自由商业使用</li>
+                        <li><i class="fas fa-check feature-allowed"></i> 代码修改和再分发</li>
+                        <li><i class="fas fa-check feature-allowed"></i> 私人使用</li>
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> 美术素材需修改后使用</li>
+                        <li><i class="fas fa-check feature-allowed"></i> 与其他协议兼容</li>
+                    </ul>
+                    
+                    <div class="license-actions">
+                        <a href="licenses/DPL-1.0-LICENSE.md" class="btn btn-primary">
+                            <i class="fas fa-file-text"></i> 查看协议
+                        </a>
+                        <a href="docs/zh-CN/dpl-guide.md" class="btn btn-secondary">
+                            <i class="fas fa-book"></i> 使用指南
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DSL-1.0 Card -->
+                <div class="license-card dsl-card">
+                    <div class="license-header">
+                        <div class="license-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <div class="license-title">DSL-1.0</div>
+                            <div class="license-subtitle">DJYX严格开源协议（橙色协议）</div>
+                            <span class="badge badge-orange">严格型</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> 商业使用需要批准</li>
+                        <li><i class="fas fa-times feature-denied"></i> 传染性 - 衍生作品必须使用DSL-1.0</li>
+                        <li><i class="fas fa-times feature-denied"></i> 严格禁止美术素材使用</li>
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> 完整源代码需要申请</li>
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> 商业使用需提前30天通知</li>
+                    </ul>
+                    
+                    <div class="license-actions">
+                        <a href="licenses/DSL-1.0-LICENSE.md" class="btn btn-primary">
+                            <i class="fas fa-file-text"></i> 查看协议
+                        </a>
+                        <a href="docs/zh-CN/dsl-guide.md" class="btn btn-secondary">
+                            <i class="fas fa-book"></i> 使用指南
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <section class="comparison-section">
+                <h2><i class="fas fa-balance-scale"></i> 协议对比</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>特性</th>
+                            <th>DPL-1.0 (宽松型)</th>
+                            <th>DSL-1.0 (严格型)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>商业使用</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> 允许</td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> 需要批准</td>
+                        </tr>
+                        <tr>
+                            <td><strong>源代码</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> 完全可获得</td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> 部分/需申请</td>
+                        </tr>
+                        <tr>
+                            <td><strong>衍生作品</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> 任意协议</td>
+                            <td><i class="fas fa-times feature-denied"></i> 必须使用DSL-1.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>美术素材</strong></td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> 鼓励修改后使用</td>
+                            <td><i class="fas fa-times feature-denied"></i> 严格禁止</td>
+                        </tr>
+                        <tr>
+                            <td><strong>分发</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> 自由</td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> 受限</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="docs/zh-CN/comparison.md" class="btn btn-primary">
+                        <i class="fas fa-search"></i> 详细对比
+                    </a>
+                </div>
+            </section>
+
+            <section class="contact-section">
+                <h2><i class="fas fa-envelope"></i> 联系我们</h2>
+                <p>有关协议申请、问题咨询或说明，请联系DJYX工作室</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>djyxstudio@163.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>DSL-1.0商业使用需提前30天申请</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- English Content -->
+        <div id="content-en" class="hidden">
+            <div class="licenses-grid">
+                <!-- DPL-1.0 Card -->
+                <div class="license-card dpl-card">
+                    <div class="license-header">
+                        <div class="license-icon">
+                            <i class="fas fa-unlock"></i>
+                        </div>
+                        <div>
+                            <div class="license-title">DPL-1.0</div>
+                            <div class="license-subtitle">DJYX Permissive License (Blue License)</div>
+                            <span class="badge badge-blue">Permissive</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check feature-allowed"></i> Free commercial use</li>
+                        <li><i class="fas fa-check feature-allowed"></i> Code modification and redistribution</li>
+                        <li><i class="fas fa-check feature-allowed"></i> Private use</li>
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> Art assets require modification</li>
+                        <li><i class="fas fa-check feature-allowed"></i> Compatible with other licenses</li>
+                    </ul>
+                    
+                    <div class="license-actions">
+                        <a href="licenses/DPL-1.0-LICENSE.md" class="btn btn-primary">
+                            <i class="fas fa-file-text"></i> View License
+                        </a>
+                        <a href="docs/en/dpl-guide.md" class="btn btn-secondary">
+                            <i class="fas fa-book"></i> Usage Guide
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DSL-1.0 Card -->
+                <div class="license-card dsl-card">
+                    <div class="license-header">
+                        <div class="license-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <div class="license-title">DSL-1.0</div>
+                            <div class="license-subtitle">DJYX Strict License (Orange License)</div>
+                            <span class="badge badge-orange">Strict</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> Commercial use requires approval</li>
+                        <li><i class="fas fa-times feature-denied"></i> Copyleft - derivatives must use DSL-1.0</li>
+                        <li><i class="fas fa-times feature-denied"></i> Art assets strictly prohibited</li>
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> Full source code requires application</li>
+                        <li><i class="fas fa-exclamation-triangle feature-warning"></i> 30-day advance notice for commercial use</li>
+                    </ul>
+                    
+                    <div class="license-actions">
+                        <a href="licenses/DSL-1.0-LICENSE.md" class="btn btn-primary">
+                            <i class="fas fa-file-text"></i> View License
+                        </a>
+                        <a href="docs/en/dsl-guide.md" class="btn btn-secondary">
+                            <i class="fas fa-book"></i> Usage Guide
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <section class="comparison-section">
+                <h2><i class="fas fa-balance-scale"></i> License Comparison</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>DPL-1.0 (Permissive)</th>
+                            <th>DSL-1.0 (Strict)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Commercial Use</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> Allowed</td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> Requires approval</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Source Code</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> Fully available</td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> Partial/Application required</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Derivative Works</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> Any license</td>
+                            <td><i class="fas fa-times feature-denied"></i> Must use DSL-1.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Art Assets</strong></td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> Modification encouraged</td>
+                            <td><i class="fas fa-times feature-denied"></i> Strictly prohibited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distribution</strong></td>
+                            <td><i class="fas fa-check feature-allowed"></i> Free</td>
+                            <td><i class="fas fa-exclamation-triangle feature-warning"></i> Restricted</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="docs/en/comparison.md" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Detailed Comparison
+                    </a>
+                </div>
+            </section>
+
+            <section class="contact-section">
+                <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+                <p>For license applications, questions, or clarifications, please contact DJYX Studio</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>djyxstudio@163.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>DSL-1.0 commercial use requires 30-day advance application</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 DJYX Studio. All rights reserved.</p>
+            <p>
+                <a href="https://github.com/Binceenigne/DJYX-License" style="color: white; text-decoration: none;">
+                    <i class="fab fa-github"></i> GitHub Repository
+                </a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        let currentLang = 'zh';
+
+        function toggleLanguage() {
+            const zhContent = document.getElementById('content-zh');
+            const enContent = document.getElementById('content-en');
+            const zhHeader = document.getElementById('header-zh');
+            const enHeader = document.getElementById('header-en');
+            const langText = document.getElementById('lang-text');
+
+            if (currentLang === 'zh') {
+                // Switch to English
+                zhContent.classList.add('hidden');
+                enContent.classList.remove('hidden');
+                enContent.classList.add('fade-in');
+                zhHeader.classList.add('hidden');
+                enHeader.classList.remove('hidden');
+                enHeader.classList.add('fade-in');
+                langText.textContent = '中文';
+                currentLang = 'en';
+            } else {
+                // Switch to Chinese
+                enContent.classList.add('hidden');
+                zhContent.classList.remove('hidden');
+                zhContent.classList.add('fade-in');
+                enHeader.classList.add('hidden');
+                zhHeader.classList.remove('hidden');
+                zhHeader.classList.add('fade-in');
+                langText.textContent = 'EN';
+                currentLang = 'zh';
+            }
+        }
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>
